@@ -14,13 +14,13 @@ A Node.js SDK for tracking custom events with automatic retry, validation, and q
 ## Installation
 
 ```bash
-npm install node-tracker-sdk
+npm install @sanketrannore/node-tracker-sdk
 ```
 
 ## Quick Start
 
 ```javascript
-import { init, cruxTrack } from 'node-tracker-sdk';
+import { init, cruxTrack } from '@sanketrannore/node-tracker-sdk';
 
 // Initialize the SDK (required before tracking events)
 init({
@@ -104,7 +104,7 @@ Every event is automatically enriched and sent as a POST request with the follow
   "eid": "550e8400-e29b-41d4-a716-446655440000",
   "uid": "user123",
   "dtm": 1703097600000,
-  "tz": "America/New_York",
+  "tz": "Asia/Calcutta",
   "p": "node",
   "e": "user_signup",
   "tv": "for-audienz",

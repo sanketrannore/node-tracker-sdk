@@ -1,7 +1,10 @@
 {
   "name": "@sanketrannore/node-tracker-sdk",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "Cruxstack Node SDK",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.mjs",
   "type": "module",
   "files": [
     "dist/",
