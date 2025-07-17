@@ -4,8 +4,8 @@ export interface InitConfig {
 }
 
 export interface EventData {
-  [key: string]: any;
   eventTime?: number;
+  [key: string]: any;
 }
 
 export interface EnrichedEvent {

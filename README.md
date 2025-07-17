@@ -30,7 +30,7 @@ init({
 
 // Track an event
 await cruxTrack('user_signup', {
-  userId: 'user123',
+  userId: 'user123', //mandatory
   email: 'user@example.com',
   eventTime: Date.now() // optional, defaults to current time
 });
