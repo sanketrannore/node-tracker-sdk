@@ -1,21 +1,24 @@
 export interface InitConfig {
-  appId: string;
-  apiEndpoint?: string;
+  clientId: string;
+  customerId: string;
+  customerName: string;
 }
 
 export interface EventData {
-  eventTime?: number;
+  dtm?: number;
   [key: string]: any;
 }
 
 export interface EnrichedEvent {
-  id: string; // eventId
-  appId: string;
-  category: string;
-  eventTime: number;
-  timezone: string;
-  data: EventData;
-  userId: string;
+  eid: string; // eventId
+  cid: string; // customerId
+  cn: string; // customerName
+  e: string; // event
+  dtm: number; // eventTime
+  tz: string; // timezone
+  ev: EventData;
+  uid: string; // userId
+  client_id: string; // clientId
 }
 
 export interface QueuedEvent {

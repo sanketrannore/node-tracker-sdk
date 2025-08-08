@@ -14,7 +14,7 @@ export function addToQueue(event: EnrichedEvent): void {
   };
   
   eventQueue.push(queuedEvent);
-  console.log(`Event queued: ${event.id}`);
+  console.log(`Event queued: ${event.eid}`);
   
   // Start retry timer if not already running
   if (!retryTimer) {
@@ -56,17 +56,17 @@ async function processQueue(): Promise<void> {
   for (const queuedEvent of eventsToRetry) {
     try {
       await sendEvent(queuedEvent.event);
-      console.log(`Queued event sent successfully: ${queuedEvent.event.id}`);
+      console.log(`Queued event sent successfully: ${queuedEvent.event.eid}`);
     } catch (error) {
       queuedEvent.attempts++;
       
       if (queuedEvent.attempts < MAX_RETRIES) {
         // Re-queue for retry
         eventQueue.push(queuedEvent);
-        console.log(`Event retry ${queuedEvent.attempts}/${MAX_RETRIES}: ${queuedEvent.event.id}`);
+        console.log(`Event retry ${queuedEvent.attempts}/${MAX_RETRIES}: ${queuedEvent.event.eid}`);
       } else {
         // Max retries reached, log error
-        console.error(`Event failed after ${MAX_RETRIES} attempts: ${queuedEvent.event.id}`, error);
+        console.error(`Event failed after ${MAX_RETRIES} attempts: ${queuedEvent.event.eid}`, error);
       }
     }
   }

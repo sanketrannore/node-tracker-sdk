@@ -21,13 +21,15 @@ export async function cruxTrack(categoryName: string, eventData: EventData = {})
     const config = getConfig();
     // Enrich the event with required fields (env is always 'server' internally, not sent)
     const enrichedEvent: EnrichedEvent = {
-      id: uuidv4(),
-      appId: config.appId,
-      category: categoryName.trim(),
-      eventTime: validatedEventData.eventTime || Date.now(),
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      data: validatedEventData,
-      userId: validatedEventData.userId
+      eid: uuidv4(),
+      cid: config.customerId,
+      cn: config.customerName,
+      client_id: config.clientId,
+      e: categoryName.trim(),
+      dtm: validatedEventData.dtm || Date.now(),
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      ev: validatedEventData,
+      uid: validatedEventData.uid || "undefined"
     };
     // Validate the enriched event
     const validatedEvent = enrichedEventSchema.parse(enrichedEvent);
