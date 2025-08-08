@@ -11,6 +11,7 @@ A Node.js SDK for tracking custom events with automatic retry, validation, and q
 - ✅ **Clean API**: Simple initialization and event tracking
 - ✅ **Error handling**: Robust error handling with detailed messages
 - ✅ **Queue management**: Built-in queue system for failed events
+- ✅ **User-friendly**: Accepts intuitive field names like `userId` and `eventTime`
 
 ## Installation
 
@@ -32,9 +33,9 @@ init({
 
 // Track an event
 await cruxTrack('user_signup', {
-  uid: 'user123', // mandatory
+  userId: 'user123', // mandatory
   email: 'user@example.com',
-  dtm: Date.now() // optional, defaults to current time
+  eventTime: Date.now() // optional, defaults to current time
 });
 ```
 
@@ -67,9 +68,9 @@ Track a custom event with optional data.
 
 ```typescript
 interface EventData {
-  dtm?: number;           // Epoch milliseconds (optional, defaults to Date.now())
-  uid?: string;           // User ID (optional, defaults to "undefined")
-  [key: string]: any;     // Additional event properties
+  eventTime?: number;      // Epoch milliseconds (optional, defaults to Date.now())
+  userId?: string;         // User ID (optional, defaults to "undefined")
+  [key: string]: any;      // Additional event properties
 }
 ```
 
@@ -80,55 +81,15 @@ interface EventData {
 **Example:**
 ```javascript
 await cruxTrack('purchase', {
-  uid: 'user123',
+  userId: 'user123',
   productId: 'prod-123',
   amount: 99.99,
   currency: 'USD',
-  dtm: Date.now()
+  eventTime: Date.now()
 });
 ```
 
-### Event Enrichment & Outgoing Payload
 
-Every event is automatically enriched and sent as a POST request to `https://dev-uii.portqii.com/api/v1/events` with the following structure:
-
-**Final outgoing payload:**
-```json
-{
-  "events": [
-    {
-      "cid": "customer-456",
-      "eid": "550e8400-e29b-41d4-a716-446655440000",
-      "uid": "user123",
-      "dtm": 1703097600000,
-      "tz": "Asia/Calcutta",
-      "p": "node",
-      "tna": "node-tracker-sdk",
-      "tv": "for-audienz",
-      "e": "user_signup",
-      "ev": {
-        "uid": "user123",
-        "email": "user@example.com",
-        "dtm": 1703097600000
-      }
-    }
-  ]
-}
-```
-
-**Payload fields:**
-- `cid`: Customer ID (from initialization)
-- `eid`: Random UUID (eventId)
-- `uid`: User ID (from eventData.uid, defaults to "undefined")
-- `dtm`: Epoch milliseconds (provided or current time)
-- `tz`: User's timezone (e.g., 'America/New_York')
-- `p`: Platform, always "node"
-- `tna`: Tracker name, always "node-tracker-sdk"
-- `tv`: Tracker version, always "for-audienz"
-- `e`: The event category
-- `ev`: The full eventData object
-
-> **Note:** Events are sent wrapped in an `events` array for batch processing compatibility.
 
 ## Error Handling & Retry
 
@@ -181,8 +142,8 @@ const config: InitConfig = {
 };
 
 const eventData: EventData = {
-  uid: 'user123',
-  dtm: Date.now()
+  userId: 'user123',
+  eventTime: Date.now()
 };
 ```
 
@@ -210,14 +171,14 @@ await cruxTrack('api_call', { endpoint: '/users', method: 'POST' });
 const customTime = new Date('2023-12-01').getTime();
 await cruxTrack('historical_event', {
   action: 'data_migration',
-  dtm: customTime
+  eventTime: customTime
 });
 ```
 
 ### With User ID
 ```javascript
 await cruxTrack('user_action', { 
-  uid: 'user123',
+  userId: 'user123',
   action: 'login',
   source: 'web'
 });
@@ -226,7 +187,7 @@ await cruxTrack('user_action', {
 ### Error Handling
 ```javascript
 try {
-  await cruxTrack('user_action', { uid: 'user123' });
+  await cruxTrack('user_action', { userId: 'user123' });
 } catch (error) {
   console.error('Failed to track event:', error.message);
 }
@@ -242,16 +203,6 @@ npm run build
 ### Type Checking
 ```bash
 npm run type-check
-```
-
-### Testing
-```bash
-npm test
-```
-
-### Running Example
-```bash
-npm run example
 ```
 
 ## Dependencies

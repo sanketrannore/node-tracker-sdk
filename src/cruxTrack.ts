@@ -19,18 +19,27 @@ export async function cruxTrack(categoryName: string, eventData: EventData = {})
     const validatedEventData = eventDataSchema.parse(eventData);
     // Get config
     const config = getConfig();
-    // Enrich the event with required fields (env is always 'server' internally, not sent)
+    
+    // Map user-friendly fields to internal format
+    const mappedEventData = {
+      ...validatedEventData,
+      uid: validatedEventData.userId || "undefined",
+      dtm: validatedEventData.eventTime || Date.now()
+    };
+    
+    // Enrich the event with required fields
     const enrichedEvent: EnrichedEvent = {
       eid: uuidv4(),
       cid: config.customerId,
       cn: config.customerName,
       client_id: config.clientId,
       e: categoryName.trim(),
-      dtm: validatedEventData.dtm || Date.now(),
+      dtm: mappedEventData.dtm,
       tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      ev: validatedEventData,
-      uid: validatedEventData.uid || "undefined"
+      ev: validatedEventData, // Keep original eventData in ev field
+      uid: mappedEventData.uid
     };
+    
     // Validate the enriched event
     const validatedEvent = enrichedEventSchema.parse(enrichedEvent);
     // Try to send the event

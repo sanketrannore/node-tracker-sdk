@@ -7,8 +7,8 @@ export const initConfigSchema = z.object({
 });
 
 export const eventDataSchema = z.object({
-  dtm: z.number().int().positive().optional(),
-  uid: z.string().min(1, 'userId is required').optional()
+  eventTime: z.number().int().positive().optional(),
+  userId: z.string().min(1, 'userId is required').optional()
 }).passthrough(); // Allow additional properties
 
 export const enrichedEventSchema = z.object({

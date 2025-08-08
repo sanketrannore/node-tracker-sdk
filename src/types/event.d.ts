@@ -5,7 +5,8 @@ export interface InitConfig {
 }
 
 export interface EventData {
-  dtm?: number;
+  eventTime?: number;
+  userId?: string;
   [key: string]: any;
 }
 
