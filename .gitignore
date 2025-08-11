@@ -2,3 +2,4 @@ node_modules/
 dist/
 tests/
 example.js
+example-usage.js
